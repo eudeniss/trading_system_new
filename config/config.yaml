@@ -1,0 +1,266 @@
+# config/config.yaml
+# Configurações completas do sistema v7.0 - OTIMIZADO
+# Data: 27/06/2025
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DO SISTEMA
+# ═══════════════════════════════════════════════════════════════
+
+system:
+  update_interval: 0.5
+  log_dir: 'logs'
+  state_dir: 'state'
+  checkpoint_interval: 60
+
+# ═══════════════════════════════════════════════════════════════
+# TIMEOUTS PARA SINAIS ESTRATÉGICOS
+# ═══════════════════════════════════════════════════════════════
+
+setup_timeouts:  # em segundos
+  reversal_slow: 600        # 10 minutos
+  reversal_violent: 300     # 5 minutos
+  breakout_ignition: 900    # 15 minutos
+  pullback_rejection: 600   # 10 minutos
+  divergence_setup: 480     # 8 minutos
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DO EXCEL
+# ═══════════════════════════════════════════════════════════════
+
+excel:
+  file: 'rtd_tapeReading.xlsx'
+  sheet: 'Sheet1'
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES WDO (MINI DÓLAR FUTURO)
+# ═══════════════════════════════════════════════════════════════
+
+wdo:
+  trades:
+    range: 'B4:E103'
+    columns: 
+      time: 0
+      side: 1
+      price: 2
+      volume: 3
+  book:
+    bid_range: 'N4:Q13'
+    ask_range: 'R4:U13'
+  contract_multiplier: 5
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DOL (DÓLAR CHEIO)
+# ═══════════════════════════════════════════════════════════════
+
+dol:
+  trades:
+    range: 'H4:K103'
+    columns: 
+      time: 0
+      side: 1
+      price: 2
+      volume: 3
+  book:
+    bid_range: 'X4:AA13'
+    ask_range: 'AB4:AE13'
+  contract_multiplier: 5
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DE ARBITRAGEM
+# ═══════════════════════════════════════════════════════════════
+
+arbitrage:
+  min_profit: 15.0
+  history_size: 100
+  signal_cooldown: 30
+  point_value: 10.0
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DE TAPE READING
+# ═══════════════════════════════════════════════════════════════
+
+tape_reading:
+  buffer_size: 10000
+  
+  # Thresholds principais
+  cvd_threshold: 150
+  cvd_roc_period: 15
+  
+  # Detecção de padrões
+  pace_anomaly_stdev: 2.0
+  absorption_threshold: 282
+  exhaustion_volume: 314
+  iceberg_repetitions: 4
+  iceberg_min_volume: 59
+  concentration_threshold: 0.40
+  pressure_threshold: 0.75
+  spike_multiplier: 3.0
+  divergence_threshold: 209
+  extreme_threshold: 250
+
+# ═══════════════════════════════════════════════════════════════
+# DETECÇÃO DE PADRÕES UNIFICADA (NOVO!)
+# ═══════════════════════════════════════════════════════════════
+
+pattern_detection:
+  # Configurações gerais
+  min_volume: 50
+  price_tolerance: 0.5
+  
+  # Janelas de tempo para análise
+  time_windows:
+    short: 10      # Trades recentes
+    medium: 50     # Contexto médio
+    long: 100      # Histórico completo
+  
+  # Limiares dinâmicos
+  dynamic_thresholds:
+    enabled: false
+    adaptation_period: 300  # segundos
+  
+  # Cache de padrões
+  pattern_cache:
+    max_size: 50
+    ttl_seconds: 60
+
+# ═══════════════════════════════════════════════════════════════
+# FILTROS DE CONTEXTO SIMPLIFICADOS (NOVO!)
+# ═══════════════════════════════════════════════════════════════
+
+context_filters:
+  enabled: true
+  
+  # Validações básicas
+  min_risk_reward: 1.0
+  max_spread_percentage: 0.5
+  
+  # Detecção de manipulação simplificada
+  manipulation:
+    book_imbalance_threshold: 5.0
+    check_depth_levels: 5
+  
+  # Ajustes por volatilidade
+  volatility_adjustments:
+    low:
+      stop_multiplier: 0.8
+      size_multiplier: 1.0
+    normal:
+      stop_multiplier: 1.0
+      size_multiplier: 1.0
+    high:
+      stop_multiplier: 1.3
+      size_multiplier: 0.8
+    extreme:
+      stop_multiplier: 1.5
+      size_multiplier: 0.6
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DE GERENCIAMENTO DE RISCO
+# ═══════════════════════════════════════════════════════════════
+
+risk_management:
+  # Limites de frequência
+  max_signals_per_minute: 10
+  max_signals_per_hour: 100
+  
+  # Qualidade e performance
+  signal_quality_threshold: 0.35
+  consecutive_losses_limit: 5
+  
+  # Limites financeiros
+  max_drawdown_percent: 2.0
+  emergency_stop_loss: 1000.0
+  
+  # Circuit breakers
+  circuit_breaker_threshold: 3
+  circuit_breaker_cooldown: 300
+
+# ═══════════════════════════════════════════════════════════════
+# DETECÇÃO DE MANIPULAÇÃO
+# ═══════════════════════════════════════════════════════════════
+
+manipulation_detection:
+  # Detecção de LAYERING
+  layering:
+    enabled: true
+    min_levels: 4
+    min_volume_per_level: 50
+    uniformity_threshold: 0.10
+  
+  # Detecção de SPOOFING
+  spoofing:
+    enabled: true
+    imbalance_ratio: 5.0
+    levels_to_check: 5
+  
+  # Ações automáticas
+  actions:
+    block_signals: true
+    alert_user: true
+    log_details: true
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIGURAÇÕES DE DISPLAY
+# ═══════════════════════════════════════════════════════════════
+
+display:
+  book_levels: 5
+  trade_history: 20
+  signal_history: 20
+  refresh_rate: 0.5
+  
+  # Layout otimizado
+  layout:
+    signals_area_height: 50  # percentual
+    strategic_area_height: 25
+    bottom_panels_height: 25
+
+# ═══════════════════════════════════════════════════════════════
+# REGIME DE MERCADO
+# ═══════════════════════════════════════════════════════════════
+
+market_regime:
+  lookback_period: 300
+  update_interval: 30
+  adaptive_params:
+    trend_threshold: 0.001
+    volatility_multiplier: 1.5
+    volume_spike_threshold: 3.0
+    liquidity_depth_levels: 5
+
+# ═══════════════════════════════════════════════════════════════
+# PERFORMANCE E OTIMIZAÇÃO (NOVO!)
+# ═══════════════════════════════════════════════════════════════
+
+performance:
+  # Cache de trades
+  trade_cache:
+    max_size_per_symbol: 10000
+    cleanup_interval: 3600  # segundos
+  
+  # Processamento em batch
+  batch_processing:
+    enabled: true
+    batch_size: 50
+    max_delay_ms: 100
+  
+  # Logs otimizados
+  logging:
+    async_logging: true
+    buffer_size: 1000
+    flush_interval: 5
+
+# ═══════════════════════════════════════════════════════════════
+# NOTAS E LEMBRETES
+# ═══════════════════════════════════════════════════════════════
+
+# OTIMIZAÇÕES v7.1:
+# - Filtros de contexto simplificados
+# - Detecção de padrões unificada
+# - Configurações de performance
+# - Layout otimizado no display
+# - Remoção de componentes não utilizados
+#
+# Para limpar imports não usados:
+# python -m pip install autoflake
+# python -m autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r .
